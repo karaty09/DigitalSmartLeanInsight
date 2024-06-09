@@ -1,0 +1,103 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Sarabun", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.blue-rectangle {
+  width: 100%;
+  height: 15px;
+  background-color: #cae9ff;
+  margin-bottom: 20px;
+}
+
+.login_font {
+  text-align: center;
+  font-size: 40px;
+  color: #03045e;
+  font-weight: bold;
+}
+
+.input-style {
+  width: 100%;
+}
+
+.input-section {
+  margin-bottom: 20px;
+}
+
+.img-size {
+  width: 100%;
+}
+
+#btn {
+  width: 40%;
+  height: 50px;
+  font-size: 20px;
+  background-color: #03045e;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-styles {
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+  .blue-rectangle {
+    width: 100%;
+    height: 15px;
+    background-color: #cae9ff;
+    margin-bottom: 20px;
+  }
+
+  .login_font {
+    text-align: center;
+    font-size: 30px;
+    color: #03045e;
+    font-weight: bold;
+    margin-top: -20px;
+  }
+
+  .input-style {
+    width: 100%;
+  }
+
+  .input-section {
+    margin-bottom: 20px;
+  }
+
+  .img-size {
+    width: 100%;
+    height: 300px;
+  }
+
+  #btn {
+    width: 40%;
+    height: 50px;
+    font-size: 20px;
+    background-color: #03045e;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .img-styles {
+    width: 50%;
+    display: block;
+    margin: auto;
+  }
+}

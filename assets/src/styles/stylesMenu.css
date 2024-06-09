@@ -1,0 +1,29 @@
+.button {
+    background-color: #CAE9FF;
+    color: #03045E; /* เพื่อให้ข้อความข้างในปุ่มเป็นสีขาว */
+    border: none; /* ไม่มีเส้นขอบ */
+    padding: 10px 20px; /* กำหนดขนาดของปุ่ม */
+    text-align: center; /* ตำแหน่งข้อความตรงกลางภายในปุ่ม */
+    text-decoration: none; /* ไม่มีการขีดเส้นใต้ข้อความ */
+    display: inline-block; /* ทำให้ปุ่มเป็นกลุ่มบล็อก */
+    font-size: 16px; /* ขนาดตัวอักษร */
+    margin: 4px 2px; /* ระยะห่างระหว่างปุ่ม */
+    cursor: pointer; /* เปลี่ยนรูปลักษณ์ของเมาส์เป็นรูปของมือเมื่อชี้ไปที่ปุ่ม */
+    border-radius: 10px; /* มุมขอบปุ่มโค้ง */
+    width: 150px;
+}
+
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.center > div {
+    text-align: center;
+}
+
+.button img {
+    width: 50px; /* ปรับขนาดภาพตามที่ต้องการ */
+    height: 50px;
+}
