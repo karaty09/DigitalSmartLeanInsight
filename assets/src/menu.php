@@ -16,7 +16,7 @@
     </div>
     <div class="col-2">
         <img src="../assets/img/recommend.png" style="width: 50px; height: 50px; margin-bottom: 5px;"><br>
-        <button type="button" href="" class="button" onclick="hrefRoleRecommend(<?php echo $role ?>)">RECOMMEND</button>
+        <button type="button" href="" class="button" onclick="hrefRoleRecommend(<?php echo $role ?>)">My Project</button>
     </div>
     <div class="col-2">
         <img src="../assets/img/dashboard.png" style="width: 50px; height: 50px; margin-bottom: 5px;"><br>
@@ -60,7 +60,7 @@
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a class="dropdown-item" onclick="selectProjectgrop('Project (New)')">Project
                                             (New)</a></li>
-                                    <li><a class="dropdown-item" onclick="selectProjectgrop('Operation (Old)')">Operation
+                                    <li><a class="dropdown-item" onclick="selectProjectgrop('Improvement (Old)')">Improvement
                                             (Old)</a></li>
                                 </ul>
                             </div>
@@ -87,6 +87,7 @@
                                             Business</a></li>
                                     <li><a class="dropdown-item" onclick="selectProjectimpact('Data Driven')">Data
                                             Driven</a></li>
+                                    <li><a class="dropdown-item" onclick="selectProjectimpact('Lean Process')">Lean Process</a></li>
                                 </ul>
                             </div>
                             <input type="hidden" id="impactInput" name="impact" required>
@@ -103,11 +104,11 @@
                             <input type="text" class="form-control" name="project_sponsor" id="Project_ponsor">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="recipient-name" class="col-form-label">Budget :</label>
+                            <label for="recipient-name" class="col-form-label">Budget (Baht) :</label>
                             <input type="text" class="form-control" name="budget" id="Budget">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="recipient-name" class="col-form-label">Estimated value :</label>
+                            <label for="recipient-name" class="col-form-label">Estimated value (Baht) :</label>
                             <input type="text" class="form-control" name="estimated_value" id="Estimated_value">
                         </div>
                     </div>

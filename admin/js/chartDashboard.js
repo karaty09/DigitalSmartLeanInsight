@@ -100,7 +100,7 @@ function chart2(ctx, datasets) {
         },
         title: {
           display: true,
-          text: "Actual Completion Date",
+          text: "Actual Completion Date (Project)",
           position: "top",
           font: {
             size: 15,
