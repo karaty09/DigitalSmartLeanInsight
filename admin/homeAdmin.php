@@ -27,7 +27,7 @@ $role = $_SESSION['role'];
     <!-- CSS Style -->
     <link rel="stylesheet" href="../assets/src/styles/stylesBody.css">
     <link rel="stylesheet" href="../assets/src/styles/stylesMenu.css">
-    <link rel="stylesheet" href="../admin/styles/styleHomeAdmin.css">
+    <link rel="stylesheet" href="../admin/styles/stylesHomeAdmin.css">
 </head>
 
 <body>
