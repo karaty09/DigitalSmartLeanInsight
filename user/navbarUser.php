@@ -1,12 +1,12 @@
 <?php
-require_once './db/connect.php';
+require_once '../db/connect.php';
 $username = $_SESSION['user_login'];
 ?>
 
 <nav class="navbar navbar-light bg-light border-bottom">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
-            <img src="./img/sitemap.png" alt="" width="110" height="60">
+            <img src="../assets/img/sitemap.png" alt="" width="110" height="60">
         </a>
         <div class="dropdown d-flex align-items-center">
             <button class="dropdown-toggle btn btn-light border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

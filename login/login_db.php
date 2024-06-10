@@ -49,7 +49,7 @@ if (isset($_POST['btn_login'])) {
 
                             case 2:
                                 $_SESSION['success'] = "Login MD Successfully";
-                                $user = $db->prepare("SELECT * FROM tb_employee WHERE id = $db_id");
+                                $user = $db->prepare("SELECT * FROM tb_employee WHERE emp_id = $db_id");
                                 $user->execute();
                                 while ($row = $user->fetch(PDO::FETCH_BOTH)) {
                                     $_SESSION['user_login_id'] = $row[0];
@@ -59,12 +59,12 @@ if (isset($_POST['btn_login'])) {
                                     $_SESSION['role'] = $row['role_id'];
                                     $_SESSION['status'] = $row['status_name'];
                                 }
-                                header("location: infoMD.php");
+                                header("location: ../md/infoMD.php");
                                 break;
 
                             case 3:
                                 $_SESSION['success'] = "Login HR Successfully";
-                                $user = $db->prepare("SELECT * FROM tb_employee WHERE id = $db_id");
+                                $user = $db->prepare("SELECT * FROM tb_employee WHERE emp_id = $db_id");
                                 $user->execute();
                                 while ($row = $user->fetch(PDO::FETCH_BOTH)) {
                                     $_SESSION['user_login_id'] = $row[0];
@@ -74,12 +74,13 @@ if (isset($_POST['btn_login'])) {
                                     $_SESSION['role'] = $row['role_id'];
                                     $_SESSION['status'] = $row['status_name'];
                                 }
-                                header("location: infoHR.php");
+                                header("location: ../hr/infoHR.php");
                                 break;
 
                             case 4:
+                                echo "Login User Successfully";
                                 $_SESSION['success'] = "Login User Successfully";
-                                $user = $db->prepare("SELECT * FROM tb_employee WHERE id = $db_id");
+                                $user = $db->prepare("SELECT * FROM tb_employee WHERE emp_id = $db_id");
                                 $user->execute();
                                 while ($row = $user->fetch(PDO::FETCH_BOTH)) {
                                     $_SESSION['user_login_id'] = $row[0];
@@ -89,7 +90,7 @@ if (isset($_POST['btn_login'])) {
                                     $_SESSION['role'] = $row['role_id'];
                                     $_SESSION['status'] = $row['status_name'];
                                 }
-                                header("location: infoUser.php");
+                                header("location: ../user/infoUser.php");
                                 break;
                         }
                     } else {

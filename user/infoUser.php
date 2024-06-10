@@ -1,7 +1,8 @@
 <?php
-require_once './db/connect.php';
+require_once '../db/connect.php';
 session_start();
 $username = $_SESSION['user_login'];
+$role = $_SESSION['role'];
 ?>
 
 <!DOCTYPE html>
@@ -22,16 +23,16 @@ $username = $_SESSION['user_login'];
     <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
 
     <!-- CSS Style -->
-    <link rel="stylesheet" href="./style/styleBody.css">
-    <link rel="stylesheet" href="./style/styleInfoUser.css">
+    <link rel="stylesheet" href="../assets/src/styles/stylesBody.css">
+    <link rel="stylesheet" href="../user/styleInfoUser.css">
 </head>
 
 <body>
     <!-- Navbar -->
-    <?php include './src/navbarUser.php' ?>
+    <?php include '../user/navbarUser.php' ?>
 
     <!-- Title -->
-    <?php include './src/title.php' ?>
+    <?php include '../assets/src/title.php' ?>
 
     <!-- Content -->
     <div class="container-fluid">
@@ -51,17 +52,21 @@ $username = $_SESSION['user_login'];
                     <div class="row d-flex align-items-center">
                         <div class="col-md-5 col-12 d-flex justify-content-end">
                             <?php
-                            $personalInfo = $db->prepare('SELECT * FROM tb_employee WHERE emp_id = :username');
+                            $personalInfo = $db->prepare('SELECT * FROM tb_employee WHERE emp_code = :username');
                             $personalInfo->bindParam(':username', $username);
                             $personalInfo->execute();
                             $personalInfo_result = $personalInfo->fetch(PDO::FETCH_ASSOC);
-                            if ($personalInfo_result && isset($personalInfo_result['image_profile'])) {
-                                $image_profile_url = filter_var($personalInfo_result['image_profile'], FILTER_SANITIZE_URL);
-                                echo '<img src="img/imgProfile/' . $image_profile_url . '" class="profile-style">';
-                            } else {
-                                echo '<img src="img/imgProfile/userDefault.jpg" class="profile-style">';
-                            }
+                            // if ($personalInfo_result && isset($personalInfo_result['image_profile'])) {
+                            //     $image_profile_url = filter_var($personalInfo_result['image_profile'], FILTER_SANITIZE_URL);
+                            //     echo '<img src="img/imgProfile/' . $image_profile_url . '" class="profile-style">';
+                            // } else {
+                            //     echo '<img src="img/imgProfile/userDefault.jpg" class="profile-style">';
+                            // }
                             ?>
+                            <?php
+                            $usernameSplit = explode("-", $username);
+                            ?>
+                            <?php echo "<img src='https://sts.scg.com/sts_employee_info/getfileImage.php?employeeno=$usernameSplit[1]&companyno=$usernameSplit[0]' alt='รูปภาพ' class='profile-style'>"; ?>
                         </div>
                         <div class="col-md-7 col-12">
                             <?php
@@ -88,7 +93,7 @@ $username = $_SESSION['user_login'];
     </div>
 
     <!-- Footer -->
-    <?php include './src/footer.php' ?>
+    <?php include '../assets/src/footer.php' ?>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

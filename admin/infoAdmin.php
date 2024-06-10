@@ -59,13 +59,17 @@ $role = $_SESSION['role'];
                             $personalInfo->bindParam(':username', $username);
                             $personalInfo->execute();
                             $personalInfo_result = $personalInfo->fetch(PDO::FETCH_ASSOC);
-                            if ($personalInfo_result && isset($personalInfo_result['image_profile'])) {
-                                $image_profile_url = filter_var($personalInfo_result['image_profile'], FILTER_SANITIZE_URL);
-                                echo '<img src="../assets/img/imgProfile/' . $image_profile_url . '" class="profile-style">';
-                            } else {
-                                echo '<img src="../assets/img/imgProfile/userDefault.jpg" class="profile-style">';
-                            }
+                            // if ($personalInfo_result && isset($personalInfo_result['image_profile'])) {
+                            //     $image_profile_url = filter_var($personalInfo_result['image_profile'], FILTER_SANITIZE_URL);
+                            //     echo '<img src="../assets/img/imgProfile/' . $image_profile_url . '" class="profile-style">';
+                            // } else {
+                            //     echo '<img src="../assets/img/imgProfile/userDefault.jpg" class="profile-style">';
+                            // }
                             ?>
+                            <?php
+                            $usernameSplit = explode("-", $username);
+                            ?>
+                            <?php echo "<img src='https://sts.scg.com/sts_employee_info/getfileImage.php?employeeno=$usernameSplit[1]&companyno=$usernameSplit[0]' alt='รูปภาพ' class='profile-style'>"; ?>
                         </div>
                         <div class="col-md-7 col-12">
                             <div class="d-flex justify-content-md-start justify-content-center">
