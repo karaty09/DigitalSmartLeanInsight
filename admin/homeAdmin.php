@@ -62,7 +62,7 @@ $role = $_SESSION['role'];
                     <tr class="text-center">
                         <th class="align-middle">No.</th>
                         <th class="align-middle">Edit</th>
-                        <th class="align-middle">Comment</th>
+                        <!-- <th class="align-middle">Comment</th> -->
                         <th class="align-middle">Location</th>
                         <th class="align-middle">Impact</th>
                         <th class="align-middle">Butget</th>
@@ -111,16 +111,16 @@ $role = $_SESSION['role'];
                                         <button type="button" class="btn btn-circle btn-yellow">
                                             <i class="bi bi-pencil"></i>
                                         </button>
-                                        <button type="button" class="btn btn-circle btn-red">
+                                        <button type="button" class="btn btn-circle btn-red delete-btn" data-id="' . $row['product_id'] . '">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>
                                 </td>';
-                            echo '<td class="text-left">
-                                    <button type="button" class="btn btn-circle btn-blue">
-                                        <i class="bi bi-chat-dots"></i>
-                                    </button>
-                                </td>';
+                            // echo '<td class="text-left">
+                            //     <button type="button" class="btn btn-circle btn-blue">
+                            //         <i class="bi bi-chat-dots"></i>
+                            //     </button>
+                            // </td>';
                             echo '<td class="text-left">' . (!empty($row['location']) ? $row['location'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['impact']) ? $row['impact'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['budget']) ? $row['budget'] : '-') . '</td>';
@@ -293,8 +293,78 @@ $role = $_SESSION['role'];
             }
         });
     </script>
+    <script>
+        //ลบข้อมูล
+        document.addEventListener('DOMContentLoaded', (event) => {
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    // console.log('Product ID:', productId); // ดูค่าที่ถูกส่งไปยังเซิร์ฟเวอร์
 
-
+                    Swal.fire({
+                        title: 'คุณแน่ใจหรือไม่?',
+                        text: "คุณจะไม่สามารถย้อนกลับได้!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'ใช่, ลบมัน!'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch('../admin/backend/delete_project.php', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        id: productId
+                                    })
+                                })
+                                .then(response => {
+                                    // console.log('Response status:', response.status);
+                                    // console.log('Response body used:', response.bodyUsed);
+                                    if (!response.ok) {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                    return response.text(); // อ่านเนื้อหาจากการตอบกลับเป็นข้อความ
+                                })
+                                .then(text => {
+                                    // console.log('Response text:', text); // ดูค่าที่ได้รับจากเซิร์ฟเวอร์เป็นข้อความ
+                                    const data = JSON.parse(text); // แปลงข้อความเป็น JSON
+                                    // console.log('Response data:', data); // ดูค่าที่ได้รับจากเซิร์ฟเวอร์ในรูปแบบ JSON
+                                    if (data.success) {
+                                        Swal.fire(
+                                            'ลบแล้ว!',
+                                            'ข้อมูลของคุณถูกลบแล้ว.',
+                                            'success'
+                                        ).then((result) => {
+                                            if (result.isConfirmed) {
+                                                // ลบแถวที่เกี่ยวข้องออกจากตาราง
+                                                button.closest('tr').remove();
+                                            }
+                                        });
+                                    } else {
+                                        Swal.fire(
+                                            'ผิดพลาด!',
+                                            'เกิดข้อผิดพลาดในการลบข้อมูล: ' + (data.error || ''),
+                                            'error'
+                                        );
+                                    }
+                                })
+                                .catch(error => {
+                                    // console.error('Error:', error);
+                                    Swal.fire(
+                                        'ผิดพลาด!',
+                                        'เกิดข้อผิดพลาดในการลบข้อมูล.',
+                                        'error'
+                                    );
+                                });
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>
