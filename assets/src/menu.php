@@ -16,7 +16,7 @@
     </div>
     <div class="col-2">
         <img src="../assets/img/recommend.png" style="width: 50px; height: 50px; margin-bottom: 5px;"><br>
-        <button type="button" href="" class="button" onclick="hrefRoleRecommend(<?php echo $role ?>)">My Project</button>
+        <button type="button" href="" class="button" onclick="hrefRoleRecommend(<?php echo $role ?>)">MY PROJECT</button>
     </div>
     <div class="col-2">
         <img src="../assets/img/dashboard.png" style="width: 50px; height: 50px; margin-bottom: 5px;"><br>
@@ -100,7 +100,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4">
-                            <label for="recipient-name" class="col-form-label">Project Sponsor :</label>
+                            <label for="recipient-name" class="col-form-label">Team Project :</label>
                             <input type="text" class="form-control" name="project_sponsor" id="Project_ponsor">
                         </div>
                         <div class="form-group col-md-4">
@@ -108,7 +108,7 @@
                             <input type="text" class="form-control" name="budget" id="Budget">
                         </div>
                         <div class="form-group col-md-4">
-                            <label for="recipient-name" class="col-form-label">Estimated value (Baht) :</label>
+                            <label for="recipient-name" class="col-form-label">Estimated Value (Baht) :</label>
                             <input type="text" class="form-control" name="estimated_value" id="Estimated_value">
                         </div>
                     </div>
@@ -233,24 +233,6 @@
 
         document.getElementById('End_Date').value = endDate;
         document.getElementById('Target').value = endDate;
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const otherRadio = document.getElementById('Other');
-        const additionalInput = document.getElementById('additional-input');
-
-        otherRadio.addEventListener('change', function() {
-            if (otherRadio.checked) {
-                additionalInput.classList.remove('hidden');
-            }
-        });
-
-        const digitalRadio = document.getElementById('Digital');
-        digitalRadio.addEventListener('change', function() {
-            if (digitalRadio.checked) {
-                additionalInput.classList.add('hidden');
-            }
-        });
     });
 
     // ซ่อนช่องกรอกข้อมูลเพิ่มเติม

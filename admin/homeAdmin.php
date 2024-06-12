@@ -29,6 +29,12 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="../assets/src/styles/stylesMenu.css">
     <link rel="stylesheet" href="../admin/styles/stylesHomeAdmin.css">
 </head>
+<style>
+    /* ซ่อนการกรอกข้อมูล */
+    .hidden {
+        display: none;
+    }
+</style>
 
 <body>
 
@@ -66,7 +72,7 @@ $role = $_SESSION['role'];
                         <th class="align-middle">Location</th>
                         <th class="align-middle">Impact</th>
                         <th class="align-middle">Butget</th>
-                        <th class="align-middle">EST values</th>
+                        <th class="align-middle">EST Values</th>
                         <th class="align-middle">Emp Name</th>
                         <th class="align-middle">PL Level</th>
                         <th class="align-middle">Group</th>
@@ -76,10 +82,10 @@ $role = $_SESSION['role'];
                         <th class="align-middle">System Flow</th>
                         <th class="align-middle">Stat Date</th>
                         <th class="align-middle">End Date</th>
-                        <th class="align-middle">Project Sponsor</th>
+                        <th class="align-middle">Team Project</th>
                         <th class="align-middle">Key Activities</th>
                         <th class="align-middle">KPI / Lean Mandays</th>
-                        <th class="align-middle">Attach PDF</th>
+                        <th class="align-middle">Attach Idea</th>
                         <th class="align-middle">Target Completion Date</th>
                         <th class="align-middle">Actual Completion Date</th>
                         <th class="align-middle">Attach Results PDF</th>
@@ -87,7 +93,7 @@ $role = $_SESSION['role'];
                         <th class="align-middle">Division</th>
                         <th class="align-middle">Department</th>
                         <th class="align-middle">Section</th>
-                        <!-- <th class="align-middle">Status</th> -->
+                        <th class="align-middle">Status</th>
                         <th class="align-middle">Need Support</th>
                         <!-- <th class="align-middle">Area</th> -->
                     </tr>
@@ -99,16 +105,15 @@ $role = $_SESSION['role'];
                     $stmt = $db->prepare($sql);
                     $stmt->execute();
                     $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
                     if (!empty($results)) {
                         foreach ($results as $row) {
                             $modalId = 'detail_' . $row['product_id'];
+                            $modalEdit = 'edit_' . $row['product_id'];
                             echo '<tr>';
                             echo '<td class="text-left">' . $no . '</td>'; // เพิ่มคอลัมน์ No.
                             echo '<td class="text-left">
                                     <div class="button-container">
-                                        <button type="button" class="btn btn-circle btn-yellow">
+                                        <button type="button" class="btn btn-circle btn-yellow" data-bs-toggle="modal" data-bs-target="#' . $modalEdit . '">
                                             <i class="bi bi-pencil"></i>
                                         </button>
                                         <button type="button" class="btn btn-circle btn-red delete-btn" data-id="' . $row['product_id'] . '">
@@ -116,6 +121,174 @@ $role = $_SESSION['role'];
                                         </button>
                                     </div>
                                 </td>';
+                            echo '<!-- ModalEdit -->
+                            <div class="modal fade" id="' . $modalEdit . '" tabindex="-1" aria-labelledby="EditModalLabel' . $row['product_id'] . '" aria-hidden="true">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-title">
+                                            <center>
+                                                <h1 style="margin-top: 20px; margin-bottom: 30px; color: #03045E; font-weight: bold;">Edit</h1>
+                                            </center>
+                                            <center>
+                                                <div style="width: 90%; height: 20px; margin-left: 10px; margin-right: 10px; background-color: #CAE9FF"></div>
+                                            </center>
+                                        </div>
+                                        <div class="modal-body" style="margin-left: 45px; margin-right: 45px;">
+                                            <form id="modalForm" method="post" enctype="multipart/form-data">
+                                                <input type="hidden" id="editProductId" name="product_id">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="Project_Title" class="col-form-label"><span style="color: red;">*</span> Project Title :</label>
+                                                        <input type="text" class="form-control" name="project_title" id="Project_Title" required value=' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="groupdropdown" class="col-form-label"><span style="color: red;">*</span> Group :</label>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="groupdropdown" name="group" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            ' . (!empty($row['group_name']) ? $row['group_name'] : '-') . ' 
+                                                            </button>
+                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                <li><a class="dropdown-item" onclick="selectProjectGroup(\'Project (New)\')">Project (New)</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectGroup(\'Improvement (Old)\')">Improvement (Old)</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <input type="hidden" id="groupInput" name="group" required>
+                                                    </div>
+                                                    <div class="form-group col-md-3">
+                                                        <label for="impactdropdown" class="col-form-label"><span style="color: red;">*</span> Impact :</label>
+                                                        <div class="dropdown">
+                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="impactdropdown" name="impact" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            ' . (!empty($row['impact']) ? $row['impact'] : '-') . '
+                                                            </button>
+                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Maximize %AF\')">Maximize %AF</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Waste Circularity Center\')">Waste Circularity Center</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Turn Clinker to Cement & Mortar\')">Turn Clinker to Cement & Mortar</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Maximize Renewable Power\')">Maximize Renewable Power</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'New Business\')">New Business</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Data Driven\')">Data Driven</a></li>
+                                                                <li><a class="dropdown-item" onclick="selectProjectImpact(\'Lean Process\')">Lean Process</a></li>
+                                                            </ul>
+                                                        </div>
+                                                        <input type="hidden" id="impactInput" name="impact" required>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="Description" class="col-form-label"><span style="color: red;">*</span> Description :</label>
+                                                    <textarea class="form-control" name="description" id="Description">' . (!empty($row['description']) ? $row['description'] : '-') . '</textarea>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Project_ponsor" class="col-form-label">Team project :</label>
+                                                        <input type="text" class="form-control" name="project_sposer" id="Project_ponsor" value=' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Budget" class="col-form-label">Budget (Baht) :</label>
+                                                        <input type="text" class="form-control" name="budget" id="Budget" value=' . (!empty($row['budget']) ? $row['budget'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Estimated_value" class="col-form-label">Estimated value (Baht) :</label>
+                                                        <input type="text" class="form-control" name="estimated_value" id="Estimated_value" value=' . (!empty($row['est_values']) ? $row['est_values'] : '-') . '>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Key_Stakeholders" class="col-form-label">Key Stakeholders :</label>
+                                                        <textarea class="form-control" name="key_stakeholder" id="Key_Stakeholders">' . (!empty($row['key_stakaholders']) ? $row['key_stakaholders'] : '-') . '</textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Key_Activities" class="col-form-label">Key Activities :</label>
+                                                        <textarea class="form-control" name="key_activitie" id="Key_Activities">' . (!empty($row['key_activities']) ? $row['key_activities'] : '-') . '</textarea>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="KPI" class="col-form-label">KPI / Lean Mandays :</label>
+                                                        <textarea class="form-control" name="kpi_lean_manday" id="KPI">' . (!empty($row['kpi_lean_mandays']) ? $row['kpi_lean_mandays'] : '-') . '</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Start_Date" class="col-form-label">Start Date :</label>
+                                                        <input type="date" class="form-control" name="start_date" id="Start_Date" value=' . (!empty($row['start_date']) ? $row['start_date'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="End_Date" class="col-form-label">End Date :</label>
+                                                        <input type="date" class="form-control" name="end_date" id="End_Date" value=' . (!empty($row['end_date']) ? $row['end_date'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Target" class="col-form-label">Target Completion Date :</label>
+                                                        <input type="date" class="form-control" name="target_completion_date" id="Target" value=' . (!empty($row['target_completion_date']) ? $row['target_completion_date'] : '-') . '>
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                    <label for="Attach_Idea" class="col-form-label">Attach Idea PDF :</label>
+                                                        <input type="file" accept=".pdf" class="form-control" name="design_pdf" id="Attach_Idea" onchange="displayFileName()">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Attach_Result" class="col-form-label">Attach Results PDF :</label>
+                                                        <input type="file" accept=".pdf" class="form-control" name="results_pdf" id="Attach_Result">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="System_Flow" class="col-form-label">System Flow :</label>
+                                                        <input type="file" accept=".drawio,.vsdx,.vsd" class="form-control" name="system_flow" id="System_Flow">
+                                                    </div>
+                                                </div>
+                                                Need Support
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="select" id="Digital" value="Digital&Technology"' . ((!empty($row['need_support']) && $row['need_support'] == 'Digital&Technology') ? ' checked' : '') . '>
+                                                    <label class="form-check-label" for="Digital">
+                                                        Digital&Technology
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio" name="select" id="Other" value="Other">
+                                                    <label class="form-check-label" for="Other">
+                                                        Other
+                                                    </label>
+                                                    <div id="additional-input" class="hidden">
+                                                        <input type="text" class="form-control" id="otherdetail" name="other_detail" placeholder="Please specify">
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <center style="color: #03045E;">อัพเดตข้อมูลเพิ่มเติม</center>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="actual_competion" class="col-form-label">Actual Completion Date :</label>
+                                                        <input type="date" class="form-control" name="actual_competion" id="actual_competion" value=' . (!empty($row['actual_competion_date']) ? $row['actual_competion_date'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="kpi" class="col-form-label">%KPI Results (%) :</label>
+                                                        <input type="text" class="form-control" name="kpi" id="kpi" value=' . (!empty($row['kpi_result']) ? $row['kpi_result'] : '-') . '>
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        Status :
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="Statusprogress" id="Statusprogress" value="In Progress"' . ((!empty($row['status']) && $row['status'] == 'In Progress') ? ' checked' : '') . '>
+                                                            <label class="form-check-label" for="Statusprogress">
+                                                                In Progress
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="radio" name="Statusdone" id="Statusdone" value="Done" ' . ((!empty($row['status']) && $row['status'] == 'Done') ? ' checked' : '') . '>
+                                                            <label class="form-check-label" for="Statusdone">
+                                                                Done
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            ';
                             // echo '<td class="text-left">
                             //     <button type="button" class="btn btn-circle btn-blue">
                             //         <i class="bi bi-chat-dots"></i>
@@ -131,22 +304,22 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <button type="button" class="btn btn-circle btn-document" data-bs-toggle="modal" data-bs-target="#' . $modalId . '">
-                                    <i class="bi bi-file-earmark"></i>
+                                <button type="button" class="btn btn-circle btn-grey" data-bs-toggle="modal" data-bs-target="#' . $modalId . '">
+                                    <i class="bi bi-three-dots"></i>
                                 </button>
                             </center>
                             </td>';
                             echo '<!-- Modal -->
                             <div class="modal fade" id="' . $modalId . '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLongTitle">Detail</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <div class="modal-body">';
-                            echo (!empty($row['description']) ? $row['description'] : '-');
-                            echo '    </div>
+                                        <div class="custom-modal-body">
+                                            ' . (!empty($row['description']) ? $row['description'] : '-') . '
+                                        </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                         </div>
@@ -156,9 +329,9 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['key_stakeholders']) ? $row['key_stakeholders'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <button type="button" class="btn btn-circle btn-yellow" onclick="downloadPDF()">
+                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : '-') . '" class="btn btn-circle btn-yellow" download>
                                     <i class="bi bi-diagram-3-fill"></i>
-                                </button>
+                                </a>
                             </center>
                             </td>';
                             echo '<td class="text-left">' . (!empty($row['start_date']) ? $row['start_date'] : '-') . '</td>';
@@ -168,16 +341,16 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['kpi_lean_mandays']) ? $row['kpi_lean_mandays'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <button type="button" class="btn btn-circle btn-document" onclick="downloadPDF()">
+                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : '-') . '" class="btn btn-circle btn-document" download>
                                     <i class="bi bi-file-earmark"></i>
-                                </button>
+                                </a>
                             </center>
                             </td>';
                             echo '<td class="text-left">' . (!empty($row['target_completion_date']) ? $row['target_completion_date'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['actual_completion_date']) ? $row['actual_completion_date'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : '-') . '" class="btn btn-circle btn-document" download>
+                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_result_pdf']) ? $row['attach_result_pdf'] : '-') . '" class="btn btn-circle btn-document" download>
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
                             </center>
@@ -187,6 +360,7 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['department_name']) ? $row['department_name'] : '-') . '</td>';
                             // echo '<td class="text-left">' . (!empty($row['department_name']) ? $row['department_name'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['section_name']) ? $row['section_name'] : '-') . '</td>';
+                            echo '<td class="text-left">' . (!empty($row['status']) ? $row['status'] : '-') . '</td>';
                             if (!empty($row['need_support'])) {
                                 if ($row['need_support'] === 'Digital&Technology') {
                                     $supportValue = (!empty($row['need_support']) ? $row['need_support'] : '-');
@@ -211,6 +385,8 @@ $role = $_SESSION['role'];
         </div>
     </div>
 
+
+
     <!-- Footer -->
     <?php include '../assets/src/footer.php' ?>
 
@@ -220,7 +396,7 @@ $role = $_SESSION['role'];
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+    <!-- //เพิ่มข้อมูล -->
     <script>
         document.getElementById('modalForm').addEventListener('submit', function(event) {
             event.preventDefault(); // ป้องกันการส่งฟอร์มแบบปกติ
@@ -266,7 +442,7 @@ $role = $_SESSION['role'];
                     formData.append('select', selectedOption.value);
                 }
                 formData.append('other_detail', document.getElementById('otherdetail').value);
-                var status = 'Progress';
+                var status = 'In Progress';
                 formData.append('status', status);
                 var emp_code = '<?php echo $username; ?>';
                 formData.append('emp_code', emp_code);
@@ -293,8 +469,8 @@ $role = $_SESSION['role'];
             }
         });
     </script>
+    <!-- //ลบข้อมูล -->
     <script>
-        //ลบข้อมูล
         document.addEventListener('DOMContentLoaded', (event) => {
             document.querySelectorAll('.delete-btn').forEach(button => {
                 button.addEventListener('click', function() {
@@ -308,7 +484,7 @@ $role = $_SESSION['role'];
                         showCancelButton: true,
                         confirmButtonColor: '#3085d6',
                         cancelButtonColor: '#d33',
-                        confirmButtonText: 'ใช่, ลบมัน!'
+                        confirmButtonText: 'Yes,Delete!'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             fetch('../admin/backend/delete_project.php', {
@@ -365,6 +541,26 @@ $role = $_SESSION['role'];
             });
         });
     </script>
+
+    <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const otherRadio = document.getElementById('Other');
+            const additionalInput = document.getElementById('additional-input');
+
+            otherRadio.addEventListener('change', function() {
+                if (otherRadio.checked) {
+                    additionalInput.classList.remove('hidden');
+                }
+            });
+
+            const digitalRadio = document.getElementById('Digital');
+            digitalRadio.addEventListener('change', function() {
+                if (digitalRadio.checked) {
+                    additionalInput.classList.add('hidden');
+                }
+            });
+        });
+    </script> -->
 </body>
 
 </html>

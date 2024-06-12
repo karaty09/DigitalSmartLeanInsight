@@ -33,7 +33,7 @@ include '../db/connect.php';
             <div class="col-md-6 col-12" style="margin: 0; padding: 0">
                 <picture>
                     <source media="(max-width: 768px)" srcset="../assets/img/sitemap.png">
-                    <img src="../assets/img/login.jpg" alt="" class="img-fluid h-100 img-styles">
+                    <img src="../assets/img/login.jpg" alt="" class="img-fluid h-150 img-styles">
                 </picture>
             </div>
             <div class="col-md-6 col-12" style="background-color: white;">

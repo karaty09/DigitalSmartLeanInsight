@@ -33,6 +33,10 @@ body {
   background-color: #6699cc;
 }
 
+.btn-grey {
+  background-color: #666e71;
+}
+
 .btn-document {
   background-color: #6699ff;
 }
@@ -48,4 +52,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.custom-modal-body {
+  max-height: 400px;
+  word-wrap: break-word; /* ป้องกันคำยาวเกิน */
 }

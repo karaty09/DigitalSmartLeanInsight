@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ตรวจสอบประเภทไฟล์
     if (in_array($designPDF_fileExtension, $allowedFileTypes) && in_array($resultsPDF_fileExtension, $allowedFileTypes) && in_array($system_flow_fileExtension, $allowedFileTypes)) {
-        $designPDF_targetDir = "../../assets/data/idea_pdf/";
+        $designPDF_targetDir = "../../asssets/data/idea_pdf/";
         $designPDF_targetFilePath = $designPDF_targetDir . $designPDF_fileName;
 
         $resultsPDF_targetDir = "../../assets/data/result_pdf/";

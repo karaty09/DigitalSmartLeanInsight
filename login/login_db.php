@@ -44,7 +44,7 @@ if (isset($_POST['btn_login'])) {
                                     $_SESSION['year'] = '2024';
                                     $_SESSION['pl_level'] = $row['level_name'];
                                 }
-                                header("location: ../admin/homeAdmin.php");
+                                header("location: ../admin/recommendAdmin.php");
                                 break;
 
                             case 2:
