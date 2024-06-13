@@ -122,7 +122,7 @@ $role = $_SESSION['role'];
                                     </div>
                                 </td>';
                             echo '<!-- ModalEdit -->
-                            <form id="editproject" method="post" enctype="multipart/form-data">
+                            <form id="' . $row['product_id'] . '" method="post" enctype="multipart/form-data">
                                 <div class="modal fade" id="' . $modalEdit . '" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-xl">
                                         <div class="modal-content">
@@ -138,7 +138,7 @@ $role = $_SESSION['role'];
                                                 </center>
                                             </div>
                                             <div class="modal-body" style="margin-left: 45px; margin-right: 45px;">
-                                                <input type="hidden" id="editProductId" name="product_id" value="' . $row['product_id'] . '">
+                                                <input type="hidden" data-id="editProductId" name="editProductId" value="' . $row['product_id'] . '">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="project_title" class="col-form-label"><span style="color: red;">*</span> Project Title :</label>
@@ -196,8 +196,8 @@ $role = $_SESSION['role'];
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label for="key_stakeholders" class="col-form-label">Key Stakeholders :</label>
-                                                        <textarea class="form-control" name="key_stakeholders" id="key_stakeholders">' . (!empty($row['key_stakeholders']) ? $row['key_stakeholders'] : '-') . '</textarea>
+                                                        <label for="key_stake" class="col-form-label">Key Stakeholders :</label>
+                                                        <textarea class="form-control" name="key_stake" id="key_stake">' . (!empty($row['key_stakeholders']) ? $row['key_stakeholders'] : '-') . '</textarea>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="key_activities" class="col-form-label">Key Activities :</label>
@@ -236,7 +236,6 @@ $role = $_SESSION['role'];
                                                         <input type="file" accept=".drawio,.vsdx,.vsd" class="form-control" name="system_flow" id="System_Flow">
                                                     </div>
                                                 </div>
-                                                <div>
                                                     Need Support
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio" name="select" id="Digital" value="Digital&Technology"' . ((!empty($row['need_support']) && $row['need_support'] == 'Digital&Technology') ? ' checked' : '') . '>
@@ -249,7 +248,6 @@ $role = $_SESSION['role'];
                                                             <input type="text" class="form-control" id="other_detail" name="other_detail" placeholder="Please specify" value="' . (!empty($row['other_detail']) ? $row['other_detail'] : '') . '">
                                                         </div>
                                                     </div>
-                                                </div>
                                                 <br>
                                                 <center style="color: #03045E;">อัพเดตข้อมูลเพิ่มเติม</center>
                                                 <div class="form-row">
@@ -425,7 +423,7 @@ $role = $_SESSION['role'];
                 formData.append('project_sponsor', document.getElementById('Project_ponsor').value);
                 formData.append('budget', document.getElementById('Budget').value);
                 formData.append('estimated_value', document.getElementById('Estimated_value').value);
-                formData.append('key_stakeholders', document.getElementById('key_stakeholders').value);
+                formData.append('key_stakeholders', document.getElementById('keystakeholders').value);
                 formData.append('key_activitie', document.getElementById('Key_Activities').value);
                 formData.append('kpi_lean_manday', document.getElementById('KPI').value);
                 formData.append('start_date', document.getElementById('Start_Date').value);
@@ -538,27 +536,34 @@ $role = $_SESSION['role'];
     <!-- //แก้ไขข้อมูล -->
     <script>
         function handleEditSubmit() {
-            console.log("Custom submit event triggered");
+            var modal = document.querySelector('.modal.show');
             var formData = new FormData();
-            formData.append('product_id', document.getElementById('editProductId').value);
-            formData.append('project_title', document.getElementById('project_title').value);
-            // formData.append('group_name', document.getElementById('group_name').textContent.trim());
-            // formData.append('impact', document.getElementById('impactdropdown').textContent.trim());
-            formData.append('description', document.getElementById('description').value);
-            formData.append('project_sponsor', document.getElementById('project_sponsor').value);
-            formData.append('key_stakeholders', document.getElementById('key_stakeholders').value);
-            formData.append('budget', document.getElementById('budget').value);
-            formData.append('est_values', document.getElementById('est_values').value);
-            formData.append('kpi_lean_mandays', document.getElementById('kpi_lean_mandays').value);
-            formData.append('key_activities', document.getElementById('key_activities').value);
-            formData.append('key_activities', document.getElementById('key_activities').value);
-            formData.append('start_date', document.getElementById('start_date').value);
-            formData.append('end_date', document.getElementById('end_date').value);
-            formData.append('target_completion_date', document.getElementById('target_completion_date').value);
-            formData.append('actual_completion_date', document.getElementById('actual_completion_date').value);
-            formData.append('kpi_result', document.getElementById('kpi_result').value);
+            formData.append('product_id', modal.querySelector('[name="editProductId"]').value);
+            formData.append('project_title', modal.querySelector('[name="project_title"]').value);
+            formData.append('description', modal.querySelector('[name="description"]').value);
+            formData.append('project_sponsor', modal.querySelector('[name="project_sponsor"]').value);
+            formData.append('key_stakeholders', modal.querySelector('[name="key_stake"]').value);
+            formData.append('budget', modal.querySelector('[name="budget"]').value);
+            formData.append('est_values', modal.querySelector('[name="est_values"]').value);
+            formData.append('kpi_lean_mandays', modal.querySelector('[name="kpi_lean_mandays"]').value);
+            formData.append('key_activities', modal.querySelector('[name="key_activities"]').value);
+            formData.append('start_date', modal.querySelector('[name="start_date"]').value);
+            formData.append('end_date', modal.querySelector('[name="end_date"]').value);
+            formData.append('target_completion_date', modal.querySelector('[name="target_completion_date"]').value);
+            formData.append('actual_completion_date', modal.querySelector('[name="actual_completion_date"]').value);
+            formData.append('kpi_result', modal.querySelector('[name="kpi_result"]').value);
             console.log(formData.get("product_id"));
             console.log(formData.get("project_title"));
+            console.log(formData.get("description"));
+            console.log(formData.get("project_sponsor"));
+            console.log(formData.get("key_stakeholders"));
+            console.log(formData.get("budget"));
+            console.log(formData.get("est_values"));
+            console.log(formData.get("start_date"));
+            console.log(formData.get("end_date"));
+            console.log(formData.get("target_completion_date"));
+            console.log(formData.get("actual_completion_date"));
+            console.log(formData.get("kpi_result"));
             console.log("FormData created:", formData);
             console.log(formData);
             fetch('../admin/backend/editproject.php', {
@@ -583,10 +588,8 @@ $role = $_SESSION['role'];
                 });
         }
     </script>
-
-
-
-    <!-- <script>
+    <!-- ปุ่ม other -->
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const otherRadio = document.getElementById('Other');
             const additionalInput = document.getElementById('additional-input');
@@ -604,7 +607,8 @@ $role = $_SESSION['role'];
                 }
             });
         });
-    </script> -->
+    </script>
+
 </body>
 
 </html>

@@ -24,7 +24,7 @@
     </div>
 </div>
 
-<!-- popup -->
+<!-- popup Add project -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -115,7 +115,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="message-text" class="col-form-label">Key Stakeholders :</label>
-                            <textarea class="form-control" name="key_stakeholders" id="key_stakeholders"></textarea>
+                            <textarea class="form-control" name="keystakeholders" id="keystakeholders"></textarea>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="message-text" class="col-form-label">Key Activities :</label>
