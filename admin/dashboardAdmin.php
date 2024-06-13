@@ -70,7 +70,7 @@ $role = $_SESSION['role'];
         <div class="card">
 
             <!-- Title Dashboard -->
-            <h3 class="card-header text-center" style="background-color: #03045E; color: white;">Dashboard</h3>
+            <h3 class="card-header text-center" style="background-color: #03045E; color: white;">Dashboard (Project Items)</h3>
             <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
                 <div class="card-body">
                     <div class="row">
@@ -167,7 +167,7 @@ $role = $_SESSION['role'];
                         <div class="card shadow rounded s3-s4-box">
                             <div class="card-body">
                                 <?php echo '<p class="fs-4 text-center" style="height: 20px;">' . $total_level_s3s4 . '</p>'; ?>
-                                <p class="fs-4 text-center">S3 - S4 (Project Items)</p>
+                                <p class="fs-4 text-center">Manager</p>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@ $role = $_SESSION['role'];
                         <div class="card shadow rounded s1-s2-box">
                             <div class="card-body">
                                 <?php echo '<p class="fs-4 text-center" style="height: 20px;">' . $total_level_s1s2 . '</p>'; ?>
-                                <p class="fs-4 text-center">S1 - S2 (Project Items)</p>
+                                <p class="fs-4 text-center">Supervisor</p>
                             </div>
                         </div>
                     </div>
@@ -183,14 +183,14 @@ $role = $_SESSION['role'];
                         <div class="card shadow rounded o3-o5-box">
                             <div class="card-body">
                                 <?php echo '<p class="fs-4 text-center" style="height: 20px;">' . $total_level_o3o5 . '</p>'; ?>
-                                <p class="fs-4 text-center">O3 - O5 (Project Items)</p>
+                                <p class="fs-4 text-center">Operation</p>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="card shadow rounded est-value-box">
                             <div class="card-body">
-                                <?php echo '<p class="fs-4 text-center" style="height: 20px;">' . number_format($total_est_value, 0) . '</p>'; ?>
+                                <?php echo '<p class="fs-4 text-center" style="height: 20px;">' . number_format($total_est_value / 1000000, 4) . '</p>'; ?>
                                 <p class="fs-4 text-center">EST Values (MB)</p>
                             </div>
                         </div>

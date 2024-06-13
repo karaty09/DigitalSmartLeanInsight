@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $budget = $_POST['budget'];
     $estimated_value = $_POST['estimated_value'];
     $description = $_POST['description'];
-    $key_stakeholder = $_POST['key_stakeholder'];
+    $key_stakeholders = $_POST['key_stakeholders'];
     $key_activities = $_POST['key_activitie'];
     $kpi_lean_manday = $_POST['kpi_lean_manday'];
     $project_sponsor = $_POST['project_sponsor'];
@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // ข้อมูลที่จะใช้ใน query
     $params = array(
-        $group, $project_title, $description, $key_stakeholder, $impact, $start_date, $end_date, $project_sponsor, $key_activities, 
+        $group, $project_title, $description, $key_stakeholders, $impact, $start_date, $end_date, $project_sponsor, $key_activities, 
         $budget, $estimated_value, $kpi_lean_manday, $need_support, $target_completion_date, $designPDF_fileName, $resultsPDF_fileName,
         $system_flow_fileName, $other_detail, $company, $fullname, $location, $year, $pl_level, $status, $emp_code
     );

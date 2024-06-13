@@ -53,7 +53,7 @@ $role = $_SESSION['role'];
             <div class="form-group mb-2 me-2">
                 <input type="text" class="form-control" id="searchInput" placeholder="Search">
             </div>
-            <button type="submit" class="btn btn-primary mb-2">Search</button>
+            <button type="submitserch" class="btn btn-primary mb-2">Search</button>
         </form>
     </div>
 
@@ -122,32 +122,32 @@ $role = $_SESSION['role'];
                                     </div>
                                 </td>';
                             echo '<!-- ModalEdit -->
-                            <div class="modal fade" id="' . $modalEdit . '" tabindex="-1" aria-labelledby="EditModalLabel' . $row['product_id'] . '" aria-hidden="true">
-                                <div class="modal-dialog modal-xl">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-title">
-                                            <center>
-                                                <h1 style="margin-top: 20px; margin-bottom: 30px; color: #03045E; font-weight: bold;">Edit</h1>
-                                            </center>
-                                            <center>
-                                                <div style="width: 90%; height: 20px; margin-left: 10px; margin-right: 10px; background-color: #CAE9FF"></div>
-                                            </center>
-                                        </div>
-                                        <div class="modal-body" style="margin-left: 45px; margin-right: 45px;">
-                                            <form id="modalForm" method="post" enctype="multipart/form-data">
-                                                <input type="hidden" id="editProductId" name="product_id">
+                            <form id="editproject" method="post" enctype="multipart/form-data">
+                                <div class="modal fade" id="' . $modalEdit . '" tabindex="-1" aria-labelledby="EditModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-xl">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-title">
+                                                <center>
+                                                    <h1 style="margin-top: 20px; margin-bottom: 30px; color: #03045E; font-weight: bold;">Edit</h1>
+                                                </center>
+                                                <center>
+                                                    <div style="width: 90%; height: 20px; margin-left: 10px; margin-right: 10px; background-color: #CAE9FF"></div>
+                                                </center>
+                                            </div>
+                                            <div class="modal-body" style="margin-left: 45px; margin-right: 45px;">
+                                                <input type="hidden" id="editProductId" name="product_id" value="' . $row['product_id'] . '">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
-                                                        <label for="Project_Title" class="col-form-label"><span style="color: red;">*</span> Project Title :</label>
-                                                        <input type="text" class="form-control" name="project_title" id="Project_Title" required value=' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '>
+                                                        <label for="project_title" class="col-form-label"><span style="color: red;">*</span> Project Title :</label>
+                                                        <input type="text" class="form-control" name="project_title" id="project_title" required value="' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '">
                                                     </div>
                                                     <div class="form-group col-md-3">
-                                                        <label for="groupdropdown" class="col-form-label"><span style="color: red;">*</span> Group :</label>
+                                                        <label for="group_name" class="col-form-label"><span style="color: red;">*</span> Group :</label>
                                                         <div class="dropdown">
-                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="groupdropdown" name="group" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="group_name" name="group" data-bs-toggle="dropdown" aria-expanded="false">
                                                             ' . (!empty($row['group_name']) ? $row['group_name'] : '-') . ' 
                                                             </button>
                                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -160,7 +160,7 @@ $role = $_SESSION['role'];
                                                     <div class="form-group col-md-3">
                                                         <label for="impactdropdown" class="col-form-label"><span style="color: red;">*</span> Impact :</label>
                                                         <div class="dropdown">
-                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="impactdropdown" name="impact" data-bs-toggle="dropdown" aria-expanded="false">
+                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="impactdropdown" name="impactdropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                                             ' . (!empty($row['impact']) ? $row['impact'] : '-') . '
                                                             </button>
                                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
@@ -177,54 +177,54 @@ $role = $_SESSION['role'];
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="Description" class="col-form-label"><span style="color: red;">*</span> Description :</label>
-                                                    <textarea class="form-control" name="description" id="Description">' . (!empty($row['description']) ? $row['description'] : '-') . '</textarea>
+                                                    <label for="description" class="col-form-label"><span style="color: red;">*</span> Description :</label>
+                                                    <textarea class="form-control" name="description" id="description">' . (!empty($row['description']) ? $row['description'] : '-') . '</textarea>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label for="Project_ponsor" class="col-form-label">Team project :</label>
-                                                        <input type="text" class="form-control" name="project_sposer" id="Project_ponsor" value=' . (!empty($row['project_title']) ? $row['project_title'] : '-') . '>
+                                                        <label for="project_sponsor" class="col-form-label">Team Project :</label>
+                                                        <input type="text" class="form-control" name="project_sponsor" id="project_sponsor" value="' . (!empty($row['project_sponsor']) ? $row['project_sponsor'] : '-') . '">
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="Budget" class="col-form-label">Budget (Baht) :</label>
-                                                        <input type="text" class="form-control" name="budget" id="Budget" value=' . (!empty($row['budget']) ? $row['budget'] : '-') . '>
+                                                        <label for="budget" class="col-form-label">Budget (Baht) :</label>
+                                                        <input type="text" class="form-control" name="budget" id="budget" value="' . (!empty($row['budget']) ? $row['budget'] : '-') . '">
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="Estimated_value" class="col-form-label">Estimated value (Baht) :</label>
-                                                        <input type="text" class="form-control" name="estimated_value" id="Estimated_value" value=' . (!empty($row['est_values']) ? $row['est_values'] : '-') . '>
-                                                    </div>
-                                                </div>
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-4">
-                                                        <label for="Key_Stakeholders" class="col-form-label">Key Stakeholders :</label>
-                                                        <textarea class="form-control" name="key_stakeholder" id="Key_Stakeholders">' . (!empty($row['key_stakaholders']) ? $row['key_stakaholders'] : '-') . '</textarea>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="Key_Activities" class="col-form-label">Key Activities :</label>
-                                                        <textarea class="form-control" name="key_activitie" id="Key_Activities">' . (!empty($row['key_activities']) ? $row['key_activities'] : '-') . '</textarea>
-                                                    </div>
-                                                    <div class="form-group col-md-4">
-                                                        <label for="KPI" class="col-form-label">KPI / Lean Mandays :</label>
-                                                        <textarea class="form-control" name="kpi_lean_manday" id="KPI">' . (!empty($row['kpi_lean_mandays']) ? $row['kpi_lean_mandays'] : '-') . '</textarea>
+                                                        <label for="est_values" class="col-form-label">Estimated Value (Baht) :</label>
+                                                        <input type="text" class="form-control" name="est_values" id="est_values" value="' . (!empty($row['est_values']) ? $row['est_values'] : '-') . '">
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label for="Start_Date" class="col-form-label">Start Date :</label>
-                                                        <input type="date" class="form-control" name="start_date" id="Start_Date" value=' . (!empty($row['start_date']) ? $row['start_date'] : '-') . '>
+                                                        <label for="key_stakeholders" class="col-form-label">Key Stakeholders :</label>
+                                                        <textarea class="form-control" name="key_stakeholders" id="key_stakeholders">' . (!empty($row['key_stakeholders']) ? $row['key_stakeholders'] : '-') . '</textarea>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="End_Date" class="col-form-label">End Date :</label>
-                                                        <input type="date" class="form-control" name="end_date" id="End_Date" value=' . (!empty($row['end_date']) ? $row['end_date'] : '-') . '>
+                                                        <label for="key_activities" class="col-form-label">Key Activities :</label>
+                                                        <textarea class="form-control" name="key_activities" id="key_activities">' . (!empty($row['key_activities']) ? $row['key_activities'] : '-') . '</textarea>
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="Target" class="col-form-label">Target Completion Date :</label>
-                                                        <input type="date" class="form-control" name="target_completion_date" id="Target" value=' . (!empty($row['target_completion_date']) ? $row['target_completion_date'] : '-') . '>
+                                                        <label for="kpi" class="col-form-label">KPI / Lean Mandays :</label>
+                                                        <textarea class="form-control" name="kpi_lean_mandays" id="kpi_lean_mandays">' . (!empty($row['kpi_lean_mandays']) ? $row['kpi_lean_mandays'] : '-') . '</textarea>
                                                     </div>
                                                 </div>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                    <label for="Attach_Idea" class="col-form-label">Attach Idea PDF :</label>
+                                                        <label for="start_date" class="col-form-label">Start Date :</label>
+                                                        <input type="date" class="form-control" name="start_date" id="start_date" value="' . (!empty($row['start_date']) ? $row['start_date'] : '-') . '">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="end_date" class="col-form-label">End Date :</label>
+                                                        <input type="date" class="form-control" name="end_date" id="end_date" value="' . (!empty($row['end_date']) ? $row['end_date'] : '-') . '">
+                                                    </div>
+                                                    <div class="form-group col-md-4">
+                                                        <label for="target_completion_date" class="col-form-label">Target Completion Date :</label>
+                                                        <input type="date" class="form-control" name="target_completion_date" id="target_completion_date" value="' . (!empty($row['target_completion_date']) ? $row['target_completion_date'] : '-') . '">
+                                                    </div>
+                                                </div>
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-4">
+                                                        <label for="Attach_Idea" class="col-form-label">Attach Idea PDF :</label>
                                                         <input type="file" accept=".pdf" class="form-control" name="design_pdf" id="Attach_Idea" onchange="displayFileName()">
                                                     </div>
                                                     <div class="form-group col-md-4">
@@ -236,58 +236,52 @@ $role = $_SESSION['role'];
                                                         <input type="file" accept=".drawio,.vsdx,.vsd" class="form-control" name="system_flow" id="System_Flow">
                                                     </div>
                                                 </div>
-                                                Need Support
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="select" id="Digital" value="Digital&Technology"' . ((!empty($row['need_support']) && $row['need_support'] == 'Digital&Technology') ? ' checked' : '') . '>
-                                                    <label class="form-check-label" for="Digital">
-                                                        Digital&Technology
-                                                    </label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="select" id="Other" value="Other">
-                                                    <label class="form-check-label" for="Other">
-                                                        Other
-                                                    </label>
-                                                    <div id="additional-input" class="hidden">
-                                                        <input type="text" class="form-control" id="otherdetail" name="other_detail" placeholder="Please specify">
+                                                <div>
+                                                    Need Support
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="select" id="Digital" value="Digital&Technology"' . ((!empty($row['need_support']) && $row['need_support'] == 'Digital&Technology') ? ' checked' : '') . '>
+                                                        <label class="form-check-label" for="Digital">Digital&Technology</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio" name="select" id="Other" value="Other"' . ((!empty($row['need_support']) && $row['need_support'] == 'Other') ? ' checked' : '') . '>
+                                                        <label class="form-check-label" for="Other">Other</label>
+                                                        <div id="additional-input"' . ((!empty($row['need_support']) && $row['need_support'] == 'Other') ? '' : ' class="hidden"') . '>
+                                                            <input type="text" class="form-control" id="other_detail" name="other_detail" placeholder="Please specify" value="' . (!empty($row['other_detail']) ? $row['other_detail'] : '') . '">
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <br>
                                                 <center style="color: #03045E;">อัพเดตข้อมูลเพิ่มเติม</center>
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
-                                                        <label for="actual_competion" class="col-form-label">Actual Completion Date :</label>
-                                                        <input type="date" class="form-control" name="actual_competion" id="actual_competion" value=' . (!empty($row['actual_competion_date']) ? $row['actual_competion_date'] : '-') . '>
+                                                        <label for="actual_completion_date" class="col-form-label">Actual Completion Date :</label>
+                                                        <input type="date" class="form-control" name="actual_completion_date" id="actual_completion_date" value="' . (!empty($row['actual_completion_date']) ? $row['actual_completion_date'] : '-') . '">
                                                     </div>
                                                     <div class="form-group col-md-4">
-                                                        <label for="kpi" class="col-form-label">%KPI Results (%) :</label>
-                                                        <input type="text" class="form-control" name="kpi" id="kpi" value=' . (!empty($row['kpi_result']) ? $row['kpi_result'] : '-') . '>
+                                                        <label for="kpi_result" class="col-form-label">%KPI Results (%) :</label>
+                                                        <input type="text" class="form-control" name="kpi_result" id="kpi_result" value="' . (!empty($row['kpi_result']) ? $row['kpi_result'] : '-') . '">
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         Status :
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="Statusprogress" id="Statusprogress" value="In Progress"' . ((!empty($row['status']) && $row['status'] == 'In Progress') ? ' checked' : '') . '>
-                                                            <label class="form-check-label" for="Statusprogress">
-                                                                In Progress
-                                                            </label>
+                                                            <input class="form-check-input" type="radio" name="status" id="Statusprogress" value="In Progress"' . ((!empty($row['status']) && $row['status'] == 'In Progress') ? ' checked' : '') . '>
+                                                            <label class="form-check-label" for="Statusprogress">In Progress</label>
                                                         </div>
                                                         <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="Statusdone" id="Statusdone" value="Done" ' . ((!empty($row['status']) && $row['status'] == 'Done') ? ' checked' : '') . '>
-                                                            <label class="form-check-label" for="Statusdone">
-                                                                Done
-                                                            </label>
+                                                            <input class="form-check-input" type="radio" name="status" id="Statusdone" value="Done"' . ((!empty($row['status']) && $row['status'] == 'Done') ? ' checked' : '') . '>
+                                                            <label class="form-check-label" for="Statusdone">Done</label>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="button" class="btn btn-primary" id="saveChanges">Save changes</button>
+                                                    <button type="button" id="saveChanges" class="btn btn-primary" onclick="handleEditSubmit()">Save changes</button>
                                                 </div>
-                                            </form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             ';
                             // echo '<td class="text-left">
                             //     <button type="button" class="btn btn-circle btn-blue">
@@ -296,8 +290,8 @@ $role = $_SESSION['role'];
                             // </td>';
                             echo '<td class="text-left">' . (!empty($row['location']) ? $row['location'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['impact']) ? $row['impact'] : '-') . '</td>';
-                            echo '<td class="text-left">' . (!empty($row['budget']) ? $row['budget'] : '-') . '</td>';
-                            echo '<td class="text-left">' . (!empty($row['est_values']) ? $row['est_values'] : '-') . '</td>';
+                            echo '<td class="text-right">' . (!empty($row['budget']) ? number_format($row['budget']) : '-') . '</td>';
+                            echo '<td class="text-right">' . (!empty($row['est_values']) ? number_format($row['est_values']) : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['emp_name']) ? $row['emp_name'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['pl_level']) ? $row['pl_level'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['group_name']) ? $row['group_name'] : '-') . '</td>';
@@ -355,7 +349,7 @@ $role = $_SESSION['role'];
                                 </a>
                             </center>
                             </td>';
-                            echo '<td class="text-left">' . (!empty($row['']) ? $row[''] : '-') . '</td>';
+                            echo '<td class="text-left">' . (!empty($row['kpi_result']) ? $row['kpi_result'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['division_name']) ? $row['division_name'] : '-') . '</td>';
                             echo '<td class="text-left">' . (!empty($row['department_name']) ? $row['department_name'] : '-') . '</td>';
                             // echo '<td class="text-left">' . (!empty($row['department_name']) ? $row['department_name'] : '-') . '</td>';
@@ -431,7 +425,7 @@ $role = $_SESSION['role'];
                 formData.append('project_sponsor', document.getElementById('Project_ponsor').value);
                 formData.append('budget', document.getElementById('Budget').value);
                 formData.append('estimated_value', document.getElementById('Estimated_value').value);
-                formData.append('key_stakeholder', document.getElementById('Key_Stakeholders').value);
+                formData.append('key_stakeholders', document.getElementById('key_stakeholders').value);
                 formData.append('key_activitie', document.getElementById('Key_Activities').value);
                 formData.append('kpi_lean_manday', document.getElementById('KPI').value);
                 formData.append('start_date', document.getElementById('Start_Date').value);
@@ -541,6 +535,56 @@ $role = $_SESSION['role'];
             });
         });
     </script>
+    <!-- //แก้ไขข้อมูล -->
+    <script>
+        function handleEditSubmit() {
+            console.log("Custom submit event triggered");
+            var formData = new FormData();
+            formData.append('product_id', document.getElementById('editProductId').value);
+            formData.append('project_title', document.getElementById('project_title').value);
+            // formData.append('group_name', document.getElementById('group_name').textContent.trim());
+            // formData.append('impact', document.getElementById('impactdropdown').textContent.trim());
+            formData.append('description', document.getElementById('description').value);
+            formData.append('project_sponsor', document.getElementById('project_sponsor').value);
+            formData.append('key_stakeholders', document.getElementById('key_stakeholders').value);
+            formData.append('budget', document.getElementById('budget').value);
+            formData.append('est_values', document.getElementById('est_values').value);
+            formData.append('kpi_lean_mandays', document.getElementById('kpi_lean_mandays').value);
+            formData.append('key_activities', document.getElementById('key_activities').value);
+            formData.append('key_activities', document.getElementById('key_activities').value);
+            formData.append('start_date', document.getElementById('start_date').value);
+            formData.append('end_date', document.getElementById('end_date').value);
+            formData.append('target_completion_date', document.getElementById('target_completion_date').value);
+            formData.append('actual_completion_date', document.getElementById('actual_completion_date').value);
+            formData.append('kpi_result', document.getElementById('kpi_result').value);
+            console.log(formData.get("product_id"));
+            console.log(formData.get("project_title"));
+            console.log("FormData created:", formData);
+            console.log(formData);
+            fetch('../admin/backend/editproject.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())
+                .then(data => {
+                    console.log("Response received:", data);
+                    Swal.fire({
+                        title: "แก้ไขข้อมูลสำเร็จ",
+                        icon: "success",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = './homeAdmin.php';
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+    </script>
+
+
 
     <!-- <script>
         document.addEventListener('DOMContentLoaded', function() {

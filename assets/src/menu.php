@@ -115,7 +115,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="message-text" class="col-form-label">Key Stakeholders :</label>
-                            <textarea class="form-control" name="key_stakeholder" id="Key_Stakeholders"></textarea>
+                            <textarea class="form-control" name="key_stakeholders" id="key_stakeholders"></textarea>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="message-text" class="col-form-label">Key Activities :</label>
