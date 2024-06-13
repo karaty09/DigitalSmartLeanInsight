@@ -29,26 +29,63 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="../assets/src/styles/stylesMenu.css">
     <link rel="stylesheet" href="../admin/styles/stylesDashboard.css">
 
-    <style>
-        .dataTables_filter {
-            float: right;
-            margin-bottom: 10px;
-        }
-
-        .dataTables_filter input {
-            width: 250px;
-            border: 1px solid #ced4da;
-            border-radius: 4px;
-            padding: 5px;
-        }
-
-        .dataTables_length {
-            display: none;
-        }
-    </style>
-
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- DataTables CSS and Select2 CSS Styles -->
+    <style>
+        /* dataTables Config */
+        .dataTables_filter,
+        .dataTables_length,
+        .dataTables_info,
+        .dataTables_paginate {
+            display: none;
+        }
+
+        /* Custom CSS to make Select2 look like form-control */
+        .select2-container .select2-selection--single {
+            height: 38px;
+            /* Adjust height to match .form-control */
+            border: 1px solid #ced4da;
+            /* Border color like .form-control */
+            border-radius: 0.25rem;
+            /* Border radius like .form-control */
+        }
+
+        .select2-container .select2-selection--single .select2-selection__rendered {
+            line-height: 38px;
+            /* Adjust line height to match height */
+        }
+
+        .select2-container .select2-selection--single .select2-selection__arrow {
+            height: 36px;
+            /* Adjust arrow height to fit container */
+            top: 1px;
+            /* Center arrow vertically */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #495057;
+            /* Text color like .form-control */
+            padding-left: 0.75rem;
+            /* Padding to match .form-control */
+            padding-right: 0.75rem;
+            /* Padding to match .form-control */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__placeholder {
+            color: #6c757d;
+            /* Placeholder color like .form-control */
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b {
+            border-color: #495057 transparent transparent transparent;
+            /* Arrow color */
+        }
+    </style>
 
     <!-- Dashboard Admin Action -->
     <?php include '../admin/backend/dashboardAdminAction.php'; ?>
@@ -76,7 +113,7 @@ $role = $_SESSION['role'];
                     <div class="row">
                         <div class="col-md-4">
                             <label for="searchCompany">Company :</label>
-                            <select id="searchCompany" name="searchCompany" class="form-control">
+                            <select id="searchCompany" name="searchCompany" class="form-control dropdown-search">
                                 <option value="Is Not Null">All</option>
                                 <?php
                                 $company_query = "SELECT DISTINCT company_name FROM tb_employee";
@@ -89,7 +126,7 @@ $role = $_SESSION['role'];
                         </div>
                         <div class="col-md-4">
                             <label for="searchDepartment">Department :</label>
-                            <select id="searchDepartment" name="searchDepartment" class="form-control">
+                            <select id="searchDepartment" name="searchDepartment" class="form-control dropdown-search">
                                 <option value="Is Not Null">All</option>
                                 <?php
                                 $department_query = "SELECT DISTINCT department_name FROM tb_employee";
@@ -102,7 +139,7 @@ $role = $_SESSION['role'];
                         </div>
                         <div class="col-md-4">
                             <label for="searchSection">Section :</label>
-                            <select id="searchSection" name="searchSection" class="form-control">
+                            <select id="searchSection" name="searchSection" class="form-control dropdown-search">
                                 <option value="Is Not Null">All</option>
                                 <?php
                                 $section_query = "SELECT DISTINCT section_name FROM tb_employee";
@@ -159,6 +196,7 @@ $role = $_SESSION['role'];
     }
     ?>
 
+    <!-- Chart -->
     <div class="container mb-3">
         <div class="card">
             <div class="card-body">
@@ -224,9 +262,27 @@ $role = $_SESSION['role'];
         </div>
     </div>
 
+    <!-- Table -->
     <div class="container mb-3">
         <div class="card">
             <h3 class="card-header" style="background-color: #03045E; color: white;">ตารางข้อมูล</h3>
+            <div class="container d-flex justify-content-start mt-3">
+                <form class="d-flex">
+                    <div class="col-md-4 d-flex align-items-center">
+                        <h6>ค้นหาข้อมูล: </h6>
+                    </div>
+                    <div class="form-group input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                                </svg>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                    </div>
+                </form>
+            </div>
             <div class="card-body">
                 <div style="overflow-x:auto;">
                     <table id="tb-data" class="table custom-table" style="width:100%">
@@ -371,7 +427,7 @@ $role = $_SESSION['role'];
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 
     <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
     <!-- DataTables -->
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
@@ -389,6 +445,57 @@ $role = $_SESSION['role'];
 
     <!-- Date Config -->
     <script src="../admin/js/dateConfig.js"></script>
+
+    <!-- Select2 Config -->
+    <script>
+        $(".dropdown-search").select2({
+            tags: true
+        });
+
+        $(function() {
+            var searchCompany = $('#searchCompany');
+            var searchDepartment = $('#searchDepartment');
+            var searchSection = $('#searchSection');
+
+            searchCompany.on('change', function() {
+                var searchCompanyId = $(this).val();
+                searchDepartment.html('<option value="">All</option>');
+                $.get('./backend/getDepartment.php', {
+                        searchCompany: searchCompanyId
+                    })
+                    .done(function(data) {
+                        var result = JSON.parse(data);
+                        $.each(result, function(index, item) {
+                            searchDepartment.append(
+                                $('<option></option>').val(item.department_name).html(item.department_name)
+                            );
+                        });
+                    })
+                    .fail(function() {
+                        alert("Error loading departments. Please try again.");
+                    });
+            });
+
+            searchDepartment.on('change', function() {
+                var searchDepartmentId = $(this).val();
+                searchSection.html('<option value="">All</option>');
+                $.get('./backend/getSection.php', {
+                        searchDepartment: searchDepartmentId
+                    })
+                    .done(function(data) {
+                        var result = JSON.parse(data);
+                        $.each(result, function(index, item) {
+                            searchSection.append(
+                                $('<option></option>').val(item.section_name).html(item.section_name)
+                            );
+                        });
+                    })
+                    .fail(function() {
+                        alert("Error loading departments. Please try again.");
+                    });
+            });
+        });
+    </script>
 
     <!-- Chart Query -->
     <script>
@@ -489,13 +596,13 @@ $role = $_SESSION['role'];
         chart4(chart4_ctx, chart4_labels, chart4_data);
     </script>
 
+    <!-- DataTables Config -->
     <script>
         $(document).ready(function() {
-            $('#tb-data').DataTable({
-                language: {
-                    search: "ค้นหา:",
-                    searchPlaceholder: "ค้นหา"
-                }
+            var table = $('#tb-data').DataTable();
+
+            $('#searchInput').on('keyup', function() {
+                table.search(this.value).draw();
             });
         });
     </script>
