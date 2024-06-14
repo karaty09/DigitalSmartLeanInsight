@@ -99,9 +99,9 @@ $role = $_SESSION['role'];
                         </div>
                     </div>
                 </div>
-                <div class="col-12 mt-2 d-flex align-items-center justify-content-md-end justify-content-center">
+                <!-- <div class="col-12 mt-2 d-flex align-items-center justify-content-md-end justify-content-center">
                     <button type="button" class="btn btn-warning button-size" onclick="location.href='./editInfoAdmin.php'">แก้ไขข้อมูลส่วนตัว</button>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

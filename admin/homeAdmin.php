@@ -28,13 +28,50 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="../assets/src/styles/stylesBody.css">
     <link rel="stylesheet" href="../assets/src/styles/stylesMenu.css">
     <link rel="stylesheet" href="../admin/styles/stylesHomeAdmin.css">
+
+    <!-- DataTables CSS and Select2 CSS Styles -->
+    <style>
+        /* ซ่อนการกรอกข้อมูล */
+        .hidden {
+            display: none;
+        }
+
+        /* dataTables Config */
+        .dataTables_filter,
+        .dataTables_length,
+        .dataTables_info,
+        .dataTables_paginate {
+            display: none;
+        }
+
+        #editAttach_Idea,
+        #editAttach_Result,
+        #editSystem_Flow {
+            display: none;
+        }
+
+        .custom-file-upload {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #F8F9F9;
+            border: 1px solid #ced4da;
+            border-radius: 5px 0 0 5px;
+            cursor: pointer;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #E5E7E9;
+        }
+
+        .file-input-custom {
+            height: 37px;
+            background-color: white;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+        }
+    </style>
 </head>
-<style>
-    /* ซ่อนการกรอกข้อมูล */
-    .hidden {
-        display: none;
-    }
-</style>
+
 
 <body>
 
@@ -48,20 +85,26 @@ $role = $_SESSION['role'];
     <?php include '../assets/src/menu.php' ?>
 
     <!-- Search Box -->
-    <div class="container d-flex justify-content-center mt-5">
-        <form class="form-inline d-flex">
-            <div class="form-group mb-2 me-2">
-                <input type="text" class="form-control" id="searchInput" placeholder="Search">
-            </div>
-            <button type="submitserch" class="btn btn-primary mb-2">Search</button>
-        </form>
-    </div>
-
-    <div class="container">
-        <h5 class="text-left">ข้อมูลทั้งหมด</h5><br>
-    </div>
-
     <div class="container mb-3">
+        <br>
+        <div class="d-flex justify-content-center">
+            <form class="d-flex">
+                <div class="col-md-4 d-flex align-items-center">
+                    <h6>ค้นหาข้อมูล: </h6>
+                </div>
+                <div class="form-group input-group mb-2">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                            </svg>
+                        </span>
+                    </div>
+                    <input type="text" class="form-control" id="searchInputHome" placeholder="Search">
+                </div>
+            </form>
+        </div>
+        <p class="text-left">ข้อมูลทั้งหมด</p>
         <div style="overflow-x:auto;">
             <table class="table custom-table" id="tb-data">
                 <thead>
@@ -109,6 +152,7 @@ $role = $_SESSION['role'];
                         foreach ($results as $row) {
                             $modalId = 'detail_' . $row['product_id'];
                             $modalEdit = 'edit_' . $row['product_id'];
+                            $defaultGroupName = $row['group_name'];
                             echo '<tr>';
                             echo '<td class="text-left">' . $no . '</td>'; // เพิ่มคอลัมน์ No.
                             echo '<td class="text-left">
@@ -147,15 +191,15 @@ $role = $_SESSION['role'];
                                                     <div class="form-group col-md-3">
                                                         <label for="group_name" class="col-form-label"><span style="color: red;">*</span> Group :</label>
                                                         <div class="dropdown">
-                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="group_name" name="group" data-bs-toggle="dropdown" aria-expanded="false">
-                                                            ' . (!empty($row['group_name']) ? $row['group_name'] : '-') . ' 
+                                                            <button class="btn btn-outline-secondary dropdown-toggle btn-block" type="button" id="groupdropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                                ' . $defaultGroupName . '
                                                             </button>
-                                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                            <ul class="dropdown-menu" aria-labelledby="groupdropdown">
                                                                 <li><a class="dropdown-item" onclick="selectProjectGroup(\'Project (New)\')">Project (New)</a></li>
                                                                 <li><a class="dropdown-item" onclick="selectProjectGroup(\'Improvement (Old)\')">Improvement (Old)</a></li>
                                                             </ul>
                                                         </div>
-                                                        <input type="hidden" id="groupInput" name="group" required>
+                                                        <input type="hidden" id="groupInput" name="group" value="' . $defaultGroupName . '" required>
                                                     </div>
                                                     <div class="form-group col-md-3">
                                                         <label for="impactdropdown" class="col-form-label"><span style="color: red;">*</span> Impact :</label>
@@ -225,15 +269,27 @@ $role = $_SESSION['role'];
                                                 <div class="form-row">
                                                     <div class="form-group col-md-4">
                                                         <label for="Attach_Idea" class="col-form-label">Attach Idea PDF :</label>
-                                                        <input type="file" accept=".pdf" class="form-control" name="design_pdf" id="Attach_Idea" onchange="displayFileName()">
+                                                        <div class="file-input-custom">
+                                                            <label for="editAttach_Idea" class="custom-file-upload me-2">เลือกไฟล์</label>
+                                                            <input type="file" accept=".pdf" id="editAttach_Idea">
+                                                            <span id="editAttach_Idea_fileName">' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : 'ไม่มีไฟล์ในฐานข้อมูล') . '</span>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="Attach_Result" class="col-form-label">Attach Results PDF :</label>
-                                                        <input type="file" accept=".pdf" class="form-control" name="results_pdf" id="Attach_Result">
+                                                        <div class="file-input-custom">
+                                                            <label for="editAttach_Result" class="custom-file-upload me-2">เลือกไฟล์</label>
+                                                            <input type="file" accept=".pdf" id="editAttach_Result">
+                                                            <span id="editAttach_Result_fileName">' . (!empty($row['attach_result_pdf']) ? $row['attach_result_pdf'] : 'ไม่มีไฟล์ในฐานข้อมูล') . '</span>
+                                                        </div>
                                                     </div>
                                                     <div class="form-group col-md-4">
                                                         <label for="System_Flow" class="col-form-label">System Flow :</label>
-                                                        <input type="file" accept=".drawio,.vsdx,.vsd" class="form-control" name="system_flow" id="System_Flow">
+                                                        <div class="file-input-custom">
+                                                            <label for="editSystem_Flow" class="custom-file-upload me-2">เลือกไฟล์</label>
+                                                            <input type="file" accept=".drawio,.vsdx,.vsd" id="editSystem_Flow">
+                                                            <span id="editSystem_Flow_fileName">' . (!empty($row['system_flow']) ? $row['system_flow'] : 'ไม่มีไฟล์ในฐานข้อมูล') . '</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                     Need Support
@@ -301,7 +357,7 @@ $role = $_SESSION['role'];
                                 </button>
                             </center>
                             </td>';
-                            echo '<!-- Modal -->
+                            echo '<!-- Modal description -->
                             <div class="modal fade" id="' . $modalId . '" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable" role="document">
                                     <div class="modal-content">
@@ -333,7 +389,7 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['kpi_lean_mandays']) ? $row['kpi_lean_mandays'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : '-') . '" class="btn btn-circle btn-document" download>
+                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_design_pdf']) ? $row['attach_design_pdf'] : '-') . '.pdf" class="btn btn-circle btn-document" target="_blank">
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
                             </center>
@@ -342,7 +398,7 @@ $role = $_SESSION['role'];
                             echo '<td class="text-left">' . (!empty($row['actual_completion_date']) ? $row['actual_completion_date'] : '-') . '</td>';
                             echo '<td>
                             <center>
-                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_result_pdf']) ? $row['attach_result_pdf'] : '-') . '" class="btn btn-circle btn-document" download>
+                                <a id="' . $modalId . '"  href="../assets/data/idea_pdf/' . (!empty($row['attach_result_pdf']) ? $row['attach_result_pdf'] : '-') . '" class="btn btn-circle btn-document" target="_blank">
                                     <i class="bi bi-file-earmark"></i>
                                 </a>
                             </center>
@@ -388,6 +444,37 @@ $role = $_SESSION['role'];
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <!-- DataTables -->
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+    <!-- DataTables Config -->
+    <script>
+        $(document).ready(function() {
+            var table = $('#tb-data').DataTable();
+
+            $('#searchInputHome').on('keyup', function() {
+                table.search(this.value).draw();
+            });
+        });
+    </script>
+    <!-- //แก้ไขไฟล์ -->
+    <script>
+        var editAttach_Idea = document.getElementById('editAttach_Idea');
+        var editAttach_Idea_file = editAttach_Idea.files[0];
+        formData.append('design_pdf', editAttach_Idea_file);
+
+        var editAttach_Result = document.getElementById('editAttach_Result');
+        var editAttach_Result_file = editAttach_Result.files[0];
+        formData.append('results_pdf', editAttach_Result_file);
+
+        var editSystem_Flow = document.getElementById('editSystem_Flow');
+        var editSystem_Flow_file = editSystem_Flow.files[0];
+        formData.append('system_flow', editSystem_Flow_file);
+    </script>
     <!-- //เพิ่มข้อมูล -->
     <script>
         document.getElementById('modalForm').addEventListener('submit', function(event) {
@@ -538,6 +625,8 @@ $role = $_SESSION['role'];
         function handleEditSubmit() {
             var modal = document.querySelector('.modal.show');
             var formData = new FormData();
+            formData.append('group', document.getElementById('groupInput').value);
+            formData.append('impact', document.getElementById('impactInput').value);
             formData.append('product_id', modal.querySelector('[name="editProductId"]').value);
             formData.append('project_title', modal.querySelector('[name="project_title"]').value);
             formData.append('description', modal.querySelector('[name="description"]').value);
@@ -552,20 +641,36 @@ $role = $_SESSION['role'];
             formData.append('target_completion_date', modal.querySelector('[name="target_completion_date"]').value);
             formData.append('actual_completion_date', modal.querySelector('[name="actual_completion_date"]').value);
             formData.append('kpi_result', modal.querySelector('[name="kpi_result"]').value);
-            console.log(formData.get("product_id"));
-            console.log(formData.get("project_title"));
-            console.log(formData.get("description"));
-            console.log(formData.get("project_sponsor"));
-            console.log(formData.get("key_stakeholders"));
-            console.log(formData.get("budget"));
-            console.log(formData.get("est_values"));
-            console.log(formData.get("start_date"));
-            console.log(formData.get("end_date"));
-            console.log(formData.get("target_completion_date"));
-            console.log(formData.get("actual_completion_date"));
-            console.log(formData.get("kpi_result"));
-            console.log("FormData created:", formData);
-            console.log(formData);
+            var status = document.querySelector('input[name="status"]:checked').value;
+            formData.append('status', status);
+            var editAttach_Idea = document.getElementById('editAttach_Idea');
+            var editAttach_Idea_file = editAttach_Idea.files[0];
+            formData.append('design_pdf', editAttach_Idea_file);
+            var editAttach_Result = document.getElementById('editAttach_Result');
+            var editAttach_Result_file = editAttach_Result.files[0];
+            formData.append('results_pdf', editAttach_Result_file);
+            var editSystem_Flow = document.getElementById('editSystem_Flow');
+            var editSystem_Flow_file = editSystem_Flow.files[0];
+            formData.append('system_flow', editSystem_Flow_file);
+            console.log(formData.get("status"));
+            console.log(formData.get("design_pdf"));
+            console.log(formData.get("results_pdf"));
+            console.log(formData.get("system_flow"));
+            console.log(formData.get("group"));
+            console.log(formData.get("impact"));
+            // console.log(formData.get("project_title"));
+            // console.log(formData.get("description"));
+            // console.log(formData.get("project_sponsor"));
+            // console.log(formData.get("key_stakeholders"));
+            // console.log(formData.get("budget"));
+            // console.log(formData.get("est_values"));
+            // console.log(formData.get("start_date"));
+            // console.log(formData.get("end_date"));
+            // console.log(formData.get("target_completion_date"));
+            // console.log(formData.get("actual_completion_date"));
+            // console.log(formData.get("kpi_result"));
+            // console.log("FormData created:", formData);
+            // console.log(formData);
             fetch('../admin/backend/editproject.php', {
                     method: 'POST',
                     body: formData
@@ -588,27 +693,21 @@ $role = $_SESSION['role'];
                 });
         }
     </script>
-    <!-- ปุ่ม other -->
+
+    <!-- selectProjectGroup -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const otherRadio = document.getElementById('Other');
-            const additionalInput = document.getElementById('additional-input');
+        function selectProjectGroup(groupInput) {
+            document.getElementById('groupdropdown').innerText = groupInput;
+            document.getElementById('groupInput').value = groupInput;
+            console.log(groupInput); // Update hidden input value
+        }
 
-            otherRadio.addEventListener('change', function() {
-                if (otherRadio.checked) {
-                    additionalInput.classList.remove('hidden');
-                }
-            });
-
-            const digitalRadio = document.getElementById('Digital');
-            digitalRadio.addEventListener('change', function() {
-                if (digitalRadio.checked) {
-                    additionalInput.classList.add('hidden');
-                }
-            });
-        });
+        function selectProjectImpact(impactInput) {
+            document.getElementById('impactdropdown').innerText = impactInput;
+            document.getElementById('impactInput').value = impactInput; // Update hidden input value
+            console.log(impactInput)
+        }
     </script>
-
 </body>
 
 </html>
