@@ -1,2 +1,1 @@
-# DigitalSmartLeanInsight-Prototype
- DigitalSmartLeanInsight-Prototype
+# DigitalSmartLeanInsight
